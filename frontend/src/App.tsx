@@ -35,6 +35,7 @@ function App() {
     <div className="app-shell">
       <header className="topbar">
         <div className="brand-block">
+          <img src="/logo.jpg" alt="Logo" className="brand-logo" onError={(e) => (e.currentTarget.style.display = 'none')} />
           <h1>{navTitle}</h1>
           {navSubtitle && <div className="counter-badge">{navSubtitle}</div>}
         </div>
