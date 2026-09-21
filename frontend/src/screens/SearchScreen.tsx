@@ -110,6 +110,40 @@ export function SearchScreen() {
     setConfirming(true);
   };
 
+  const handleDirectMarkPresent = async (member: SearchResultItem) => {
+    setLoading(true);
+    setAttendanceError('');
+
+    try {
+      const presentCount = member.familyCount || '1';
+      const label = presentCount === '1' ? member.name : `${member.name} (+${Number(presentCount) - 1})`;
+      
+      const response = await postJson({
+        action: 'verifyAttendance',
+        memberId: member.memberId,
+        familyMember: label,
+        present: true,
+        updatedPhone: member.phone,
+        familyCount: presentCount
+      });
+      
+      if (!response.success) {
+        setAttendanceError(response.error || 'Attendance could not be verified.');
+        return;
+      }
+
+      setAttendanceDone({ names: [label] });
+      setResults([]);
+      setSelected(null);
+      setConfirming(false);
+      setForm(emptySearch);
+    } catch (err) {
+      setAttendanceError(err instanceof Error ? err.message : 'Unable to save attendance.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const confirmAttendance = async () => {
     if (!selected) return;
     setLoading(true);
@@ -221,20 +255,24 @@ export function SearchScreen() {
               </div>
 
               <div className="family-box">
-                <div className="family-label">FAMILY MEMBERS</div>
-                <div className="family-list">
-                  {Array.isArray(result.familyMembers) && result.familyMembers.length > 0 ? (
-                    result.familyMembers.map((item) => (
-                      <div key={item} className="family-item">☐ {item}</div>
-                    ))
-                  ) : (
-                    <div className="family-item">☐ {result.name} — Primary Member</div>
-                  )}
+                <div className="family-label">SELECT TOTAL MEMBERS PRESENT</div>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+                  {[1, 2, 3, 4, 5, 6].map((num) => (
+                    <button
+                      key={num}
+                      type="button"
+                      className={(result.familyCount || '1') === String(num) ? 'primary-button' : 'secondary-button'}
+                      style={{ padding: '0.5rem 1rem', minWidth: '3rem' }}
+                      onClick={() => setResults(results.map(r => r.memberId === result.memberId ? { ...r, familyCount: String(num) } : r))}
+                    >
+                      {num}
+                    </button>
+                  ))}
                 </div>
               </div>
 
               <div className="member-actions">
-                <button type="button" className="primary-button" onClick={() => { setSelected(result); setSelectedFamilyMembers([result.name]); }}>
+                <button type="button" className="primary-button" onClick={() => handleDirectMarkPresent(result)} disabled={loading}>
                   MARK PRESENT
                 </button>
               </div>
