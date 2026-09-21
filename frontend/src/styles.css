@@ -72,7 +72,15 @@ button {
 .brand-block {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.brand-logo {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 8px;
 }
 
 .eyebrow {
@@ -475,73 +483,95 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  min-height: 60vh;
-  justify-content: center;
+  max-width: 900px;
+  margin: 40px auto 0;
 }
 
-.landing-header {
+.landing-hero {
   text-align: center;
+  margin-bottom: 24px;
+}
+
+.landing-hero h2 {
+  font-size: 2.2rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.landing-hero p {
+  color: var(--muted);
+  font-size: 1.1rem;
 }
 
 .landing-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
 }
 
 .choice-card {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  min-height: 220px;
-  border-radius: 20px;
-  padding: 26px;
+  text-align: center;
+  padding: 48px 32px;
+  border-radius: 28px;
   border: 1px solid var(--line);
   text-decoration: none;
   color: var(--text);
   background: var(--panel);
-  box-shadow: var(--shadow);
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  box-shadow: 0 16px 32px rgba(122, 0, 30, 0.05);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .choice-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--line-strong);
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: 0 24px 48px rgba(122, 0, 30, 0.12);
 }
 
-.choice-card--primary {
-  background: #ffffff;
+.choice-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
 }
 
-.choice-card--secondary {
-  background: #ffffff;
+.choice-icon svg {
+  width: 32px;
+  height: 32px;
 }
 
-.choice-card__eyebrow {
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 800;
-  color: var(--muted);
+.choice-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .choice-card__title {
-  font-size: clamp(1.4rem, 2vw, 2rem);
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   margin-top: 8px;
 }
 
 .choice-card p {
-  margin-top: 14px;
+  margin-top: 12px;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 1.05rem;
+  max-width: 260px;
 }
 
 .choice-card span {
-  margin-top: 22px;
+  margin-top: 24px;
   font-size: 1rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--primary);
 }
 
