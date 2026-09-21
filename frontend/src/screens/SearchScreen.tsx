@@ -159,12 +159,11 @@ export function SearchScreen() {
 
     try {
       const presentCount = member.familyCount || '1';
-      const label = presentCount === '1' ? member.name : `${member.name} (+${Number(presentCount) - 1})`;
       
       const response = await postJson({
         action: 'verifyAttendance',
         memberId: member.memberId,
-        familyMember: label,
+        familyMember: presentCount, // Send exact number to Google Sheets
         present: true,
         updatedPhone: member.phone,
         familyCount: presentCount
@@ -175,7 +174,8 @@ export function SearchScreen() {
         return;
       }
 
-      setAttendanceDone({ names: [label] });
+      const successLabel = presentCount === '1' ? member.name : `${member.name} (${presentCount} members)`;
+      setAttendanceDone({ names: [successLabel] });
       setResults([]);
       setSelected(null);
       setConfirming(false);
@@ -194,12 +194,11 @@ export function SearchScreen() {
 
     try {
       const presentCount = selected.familyCount || '1';
-      const label = presentCount === '1' ? selected.name : `${selected.name} (+${Number(presentCount) - 1})`;
       
       const response = await postJson({
         action: 'verifyAttendance',
         memberId: selected.memberId,
-        familyMember: label,
+        familyMember: presentCount,
         present: true,
         updatedPhone: selected.phone,
         familyCount: presentCount
@@ -210,7 +209,8 @@ export function SearchScreen() {
         return;
       }
 
-      setAttendanceDone({ names: [label] });
+      const successLabel = presentCount === '1' ? selected.name : `${selected.name} (${presentCount} members)`;
+      setAttendanceDone({ names: [successLabel] });
       setResults([]);
       setSelected(null);
       setConfirming(false);
