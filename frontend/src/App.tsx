@@ -18,7 +18,7 @@ function App() {
     if (isSearch) {
       return 'REGISTRATION VERIFICATION';
     }
-    return 'COMMUNITY EVENT';
+    return 'ಕೂಟ ಮಹಾಜಗತ್ತು ಕೇಂದ್ರ ಅಧಿವೇಶನ 2026';
   }, [isRegister, isSearch]);
 
   const navSubtitle = useMemo(() => {
@@ -28,16 +28,15 @@ function App() {
     if (isSearch) {
       return 'Verification';
     }
-    return 'Choose Counter';
+    return null;
   }, [isRegister, isSearch]);
 
   return (
     <div className="app-shell">
       <header className="topbar">
         <div className="brand-block">
-          <div className="eyebrow">COMMUNITY EVENT</div>
           <h1>{navTitle}</h1>
-          <div className="counter-badge">{navSubtitle}</div>
+          {navSubtitle && <div className="counter-badge">{navSubtitle}</div>}
         </div>
         {location.pathname !== '/' && (
           <Link to="/" className="ghost-button compact">

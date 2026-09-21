@@ -152,7 +152,6 @@ export function SearchScreen() {
     <section className="card-panel">
       <div className="section-header">
         <div>
-          <div className="eyebrow">COMMUNITY EVENT</div>
           <h2>Registration Verification</h2>
           <p className="subtitle">Search registered members and verify attendance</p>
         </div>

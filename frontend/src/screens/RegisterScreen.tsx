@@ -194,7 +194,6 @@ export function RegisterScreen() {
     <section className="card-panel">
       <div className="section-header">
         <div>
-          <div className="eyebrow">COMMUNITY EVENT</div>
           <h2>On-Spot Registration</h2>
         </div>
         <div className="counter-tag">{counterLabel}</div>

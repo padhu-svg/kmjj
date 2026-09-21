@@ -3,11 +3,6 @@ import { Link } from 'react-router-dom';
 export function LandingScreen() {
   return (
     <div className="landing-layout">
-      <div className="landing-header">
-        <div className="eyebrow">COMMUNITY EVENT</div>
-        <h2>Choose counter</h2>
-      </div>
-
       <div className="landing-grid">
         <Link to="/register?counter=R1" className="choice-card choice-card--primary">
           <div className="choice-card__eyebrow">Registration</div>
