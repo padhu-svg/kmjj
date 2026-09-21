@@ -2,32 +2,32 @@
   font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #111111;
-  background: #f2f2f0;
+  color: #2d1a11;
+  background: #fdfaf6;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --page-bg: #f2f2f0;
+  --page-bg: #fdfaf6;
   --panel: #ffffff;
   --panel-soft: #fafafa;
-  --surface: #eeeeec;
-  --line: #d6d6d2;
-  --line-strong: #a9a9a3;
-  --primary: #111111;
-  --primary-strong: #000000;
-  --primary-soft: #f0f0ed;
-  --accent: #111111;
-  --accent-soft: #f0f0ed;
-  --warning-bg: #f6f6f4;
-  --warning-text: #222222;
+  --surface: #fdf3ed;
+  --line: #e8dcc4;
+  --line-strong: #c89b3c;
+  --primary: #7A001E;
+  --primary-strong: #5a0016;
+  --primary-soft: #f4eaec;
+  --accent: #E07A00;
+  --accent-soft: #fbf0e6;
+  --warning-bg: #fffbf0;
+  --warning-text: #8b5b00;
   --danger-bg: #fff1f1;
   --danger-text: #b42318;
   --success-bg: #edf8f0;
   --success-text: #18743a;
-  --text: #111111;
-  --muted: #64645e;
-  --shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
+  --text: #2d1a11;
+  --muted: #6e584f;
+  --shadow: 0 12px 30px rgba(122, 0, 30, 0.06);
 }
 
 * {
@@ -79,7 +79,7 @@ button {
   letter-spacing: 0.14em;
   font-weight: 800;
   font-size: 0.72rem;
-  color: #111111;
+  color: var(--primary);
   text-transform: uppercase;
 }
 
@@ -107,7 +107,7 @@ h2 {
 
 .card-panel__inner {
   margin-top: 24px;
-  background: #f7f7f5;
+  background: var(--surface);
   border-radius: 20px;
   border: 1px solid var(--line);
   padding: 24px;
@@ -151,7 +151,7 @@ h2 {
   flex-direction: column;
   gap: 10px;
   font-weight: 600;
-  color: #222222;
+  color: var(--text);
 }
 
 .field span {
@@ -184,8 +184,8 @@ h2 {
 .field input:focus,
 .field textarea:focus,
 .field select:focus {
-  border-color: #111111;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(122, 0, 30, 0.15);
 }
 
 .full-width {
@@ -204,10 +204,10 @@ h2 {
 }
 
 .primary-button {
-  background: #111111;
+  background: var(--primary);
   color: #ffffff;
   padding: 0 22px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 8px 16px rgba(122, 0, 30, 0.2);
 }
 
 .secondary-button {
@@ -365,7 +365,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  color: #333333;
+  color: var(--text);
 }
 
 .info-line {
@@ -397,7 +397,7 @@ h2 {
   align-items: center;
   gap: 10px;
   min-height: 38px;
-  color: #222222;
+  color: var(--text);
 }
 
 .checkbox-row input {
@@ -458,7 +458,7 @@ h2 {
   flex-direction: column;
   gap: 4px;
   margin-bottom: 18px;
-  color: #333333;
+  color: var(--text);
 }
 
 .empty-state {
@@ -541,7 +541,7 @@ h2 {
   margin-top: 22px;
   font-size: 1rem;
   font-weight: 800;
-  color: #111111;
+  color: var(--primary);
 }
 
 .success-list {
