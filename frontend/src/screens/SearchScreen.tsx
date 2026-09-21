@@ -116,23 +116,24 @@ export function SearchScreen() {
     setAttendanceError('');
 
     try {
-      const names = selectedFamilyMembers.length > 0 ? selectedFamilyMembers : [selected.name];
-      for (const familyMember of names) {
-        const response = await postJson({
-          action: 'verifyAttendance',
-            memberId: selected.memberId,
-            familyMember,
-          present: true,
-            updatedPhone: selected.phone,
-            familyCount: selected.familyCount || '1'
-        });
-        if (!response.success) {
-          setAttendanceError(response.error || 'Attendance could not be verified.');
-          return;
-        }
+      const presentCount = selected.familyCount || '1';
+      const label = presentCount === '1' ? selected.name : `${selected.name} (+${Number(presentCount) - 1})`;
+      
+      const response = await postJson({
+        action: 'verifyAttendance',
+        memberId: selected.memberId,
+        familyMember: label,
+        present: true,
+        updatedPhone: selected.phone,
+        familyCount: presentCount
+      });
+      
+      if (!response.success) {
+        setAttendanceError(response.error || 'Attendance could not be verified.');
+        return;
       }
 
-      setAttendanceDone({ names });
+      setAttendanceDone({ names: [label] });
       setResults([]);
       setSelected(null);
       setConfirming(false);
@@ -259,19 +260,18 @@ export function SearchScreen() {
           </div>
 
           <div className="family-box">
-            <div className="family-label">FAMILY MEMBERS</div>
-            <div className="family-list selectable">
-              {[selected.name, ...(selected.familyMembers || [])].filter((memberName) => memberName && !/^\d+$/.test(memberName)).map((memberName) => (
-                <label key={memberName} className="checkbox-row">
-                  <input
-                    type="checkbox"
-                    checked={selectedFamilyMembers.includes(memberName)}
-                    onChange={(event) => setSelectedFamilyMembers((current) => event.target.checked
-                      ? [...current, memberName]
-                      : current.filter((name) => name !== memberName))}
-                  />
-                  <span>{memberName}{memberName === selected.name ? ' — Primary Member' : ''}</span>
-                </label>
+            <div className="family-label">TOTAL MEMBERS PRESENT</div>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+              {[1, 2, 3, 4, 5, 6].map((num) => (
+                <button
+                  key={num}
+                  type="button"
+                  className={selected.familyCount === String(num) ? 'primary-button' : 'secondary-button'}
+                  style={{ padding: '0.5rem 1rem', minWidth: '3rem' }}
+                  onClick={() => setSelected((prev) => prev ? { ...prev, familyCount: String(num) } : null)}
+                >
+                  {num}
+                </button>
               ))}
             </div>
           </div>
@@ -281,7 +281,7 @@ export function SearchScreen() {
             <input value={selected.phone} onChange={(e) => setSelected((prev) => prev ? { ...prev, phone: e.target.value } : null)} />
           </div>
           <div className="field">
-            <span>Family Members Attending</span>
+            <span>Total Members Attending (Custom)</span>
             <input
               type="number"
               min="1"

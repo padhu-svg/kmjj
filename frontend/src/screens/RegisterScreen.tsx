@@ -234,7 +234,6 @@ export function RegisterScreen() {
               maxLength={6}
               autoComplete="postal-code"
               placeholder="576101"
-              required
             />
           </label>
 
@@ -263,11 +262,14 @@ export function RegisterScreen() {
           </label>
 
           <label className="field full-width">
-            <span>Family Members</span>
+            <span>No. of family members attending or present</span>
             <input
+              type="number"
+              min="0"
               value={form.familyMembers}
               onChange={(e) => handleChange('familyMembers', e.target.value)}
-              placeholder="Ravi Kumar, Lakshmi Kumar, Anu Kumar"
+              placeholder="e.g. 2"
+              required
             />
           </label>
 
