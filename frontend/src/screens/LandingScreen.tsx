@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 export function LandingScreen() {
   return (
     <div className="landing-layout">
-      <div className="landing-hero">
-        <h2>Welcome to the Adhiveshana Dashboard</h2>
-        <p>Please select an action below to get started</p>
-      </div>
       <div className="landing-grid">
         <Link to="/register?counter=R1" className="choice-card choice-card--primary">
           <div className="choice-icon">
