@@ -254,21 +254,17 @@ export function SearchScreen() {
                 <div className="info-line">Notes: {result.notes || '—'}</div>
               </div>
 
-              <div className="family-box">
-                <div className="family-label">SELECT TOTAL MEMBERS PRESENT</div>
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
-                  {[1, 2, 3, 4, 5, 6].map((num) => (
-                    <button
-                      key={num}
-                      type="button"
-                      className={(result.familyCount || '1') === String(num) ? 'primary-button' : 'secondary-button'}
-                      style={{ padding: '0.5rem 1rem', minWidth: '3rem' }}
-                      onClick={() => setResults(results.map(r => r.memberId === result.memberId ? { ...r, familyCount: String(num) } : r))}
-                    >
-                      {num}
-                    </button>
-                  ))}
-                </div>
+              <div className="family-box" style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px', border: '1px solid #e9ecef' }}>
+                <label className="field" style={{ margin: 0 }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#495057' }}>Members Present</span>
+                  <input
+                    type="number"
+                    min="1"
+                    value={result.familyCount || '1'}
+                    onChange={(e) => setResults(results.map(r => r.memberId === result.memberId ? { ...r, familyCount: e.target.value } : r))}
+                    style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem' }}
+                  />
+                </label>
               </div>
 
               <div className="member-actions">
