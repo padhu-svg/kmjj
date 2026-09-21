@@ -40,8 +40,8 @@ function App() {
           {navSubtitle && <div className="counter-badge">{navSubtitle}</div>}
         </div>
         {location.pathname !== '/' && (
-          <Link to="/" className="ghost-button compact">
-            Home
+          <Link to="/" className="ghost-button compact nav-home">
+            &larr; Home
           </Link>
         )}
       </header>
