@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useMemo, useState, useEffect } from 'react';
 import { postJson } from '../api';
 import { COUNTER_LABELS, getCounterFromQuery } from '../config';
 
@@ -47,6 +47,29 @@ export function SearchScreen() {
     [searchValue]
   );
 
+  const [allMembers, setAllMembers] = useState<SearchResultItem[] | null>(null);
+  const [syncing, setSyncing] = useState(false);
+
+  // Fetch all members once on mount
+  useEffect(() => {
+    let mounted = true;
+    const fetchAll = async () => {
+      setSyncing(true);
+      try {
+        const response = await postJson<SearchResultItem>({ action: 'search', fetchAll: true });
+        if (mounted && response.success && Array.isArray(response.results)) {
+          setAllMembers(response.results);
+        }
+      } catch (err) {
+        console.error('Failed to sync members:', err);
+      } finally {
+        if (mounted) setSyncing(false);
+      }
+    };
+    fetchAll();
+    return () => { mounted = false; };
+  }, []);
+
   const handleChange = (field: keyof typeof emptySearch, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     setError('');
@@ -79,23 +102,43 @@ export function SearchScreen() {
     setAttendanceError('');
 
     try {
-      const payload = {
-        action: 'search',
-        query: searchField === 'all' ? searchValue : '',
-        name: searchField === 'name' ? searchValue : '',
-        phone: searchField === 'phone' ? searchValue : '',
-        pincode: searchField === 'pincode' ? searchValue : ''
-      };
+      if (allMembers) {
+        // Fast client-side filter
+        const query = (searchField === 'all' ? searchValue : '').toLowerCase();
+        const nameQuery = (searchField === 'name' ? searchValue : '').toLowerCase();
+        const phoneQuery = searchField === 'phone' ? searchValue : '';
+        const pinQuery = searchField === 'pincode' ? searchValue : '';
+        
+        const items = allMembers.filter(member => {
+          const rowName = (member.name || '').toLowerCase();
+          const rowPhone = member.phone || '';
+          const rowPin = member.pincode || '';
+          const rowAll = `${rowName} ${rowPhone} ${rowPin} ${member.place || ''} ${member.angasamste || ''}`.toLowerCase();
+          
+          if (query && rowAll.includes(query)) return true;
+          if (nameQuery && rowName.includes(nameQuery)) return true;
+          if (phoneQuery && rowPhone.includes(phoneQuery)) return true;
+          if (pinQuery && rowPin.includes(pinQuery)) return true;
+          return false;
+        });
+        setResults(items);
+      } else {
+        // Fallback to server search if not synced yet
+        const payload = {
+          action: 'search',
+          query: searchField === 'all' ? searchValue : '',
+          name: searchField === 'name' ? searchValue : '',
+          phone: searchField === 'phone' ? searchValue : '',
+          pincode: searchField === 'pincode' ? searchValue : ''
+        };
 
-      const response = await postJson<SearchResultItem>(payload);
-      if (!response.success) {
-        throw new Error(response.error || 'Search failed.');
-      }
+        const response = await postJson<SearchResultItem>(payload);
+        if (!response.success) {
+          throw new Error(response.error || 'Search failed.');
+        }
 
-      const items = Array.isArray(response.results) ? response.results : [];
-      setResults(items);
-      if (items.length === 0) {
-        setSelected(null);
+        const items = Array.isArray(response.results) ? response.results : [];
+        setResults(items);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to search members.');

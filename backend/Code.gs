@@ -364,7 +364,7 @@ function handleSearch(payload) {
   const familyMembers = normalizeText(payload.familyMembers);
   const notes = normalizeText(payload.notes);
 
-  if (!query && !name && !phone && !angasamste && !pincode && !place && !familyMembers && !notes) {
+  if (!payload.fetchAll && !query && !name && !phone && !angasamste && !pincode && !place && !familyMembers && !notes) {
     return jsonResponse(createError('Please enter at least one search value.'));
   }
 
@@ -397,7 +397,7 @@ function handleSearch(payload) {
       const familyMatches = familyMembers ? rowFamilyMembers.includes(familyMembers.toLowerCase()) : false;
       const notesMatches = notes ? rowNotes.includes(notes.toLowerCase()) : false;
 
-      if (queryMatches || nameMatches || phoneMatches || angasamsteMatches || pincodeMatches || placeMatches || familyMatches || notesMatches) {
+      if (payload.fetchAll || queryMatches || nameMatches || phoneMatches || angasamsteMatches || pincodeMatches || placeMatches || familyMatches || notesMatches) {
         matches.push({
         memberId: member.memberId,
         timestamp: member.timestamp,
